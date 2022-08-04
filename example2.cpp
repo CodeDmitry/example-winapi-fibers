@@ -32,16 +32,22 @@ void __stdcall Fiber1Proc(void far *parg)
         ++counter;
         
         if (counter == 50000) {
-            // | make the variant VT_EMPTY, no more.
+            // | No more iterations, prepare to respond with null.
+            // | VariantInit initializes to VT_EMPTY akin to "undefined".
             VariantInit(&response);
+            // | Our value is defined but null.
+            response.vt = VT_NULL;
         } else {        
+            // | Prepare to respond with the counter.
             response.vt = VT_INT;
             response.intVal = counter;
         }
         
-        args.fiberStack->push(response);        
-        
-        SwitchToFiber(args.callerFiber);
+        // "yield response"
+        {
+            args.fiberStack->push(response);        
+            SwitchToFiber(args.callerFiber);
+        }
     }
 }
 
@@ -86,4 +92,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
