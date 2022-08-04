@@ -1,4 +1,4 @@
-// | uses oleaut32(flag -loleaut32) 
+// | Uses oleaut32(flag -loleaut32) 
 // | Demonstrates using fibers as coroutines that can give responses on yield
 // |    (and even accept requests, but that is not done here).
 #include <Windows.h>
@@ -7,10 +7,10 @@
 #include <stack>
 #include <stdlib.h>
 
-// | our coroutine needs a stack to place results onto
+// | Our coroutine needs a stack to place results onto
 // |     use variant instead of int to potentially return different
 // |     types in the future.
-// | our coroutine needs to know who called it, in order to 
+// | Our coroutine needs to know who called it, in order to 
 // |     be a "true" coroutine.
 struct co_args_t {
     std::stack<VARIANT> *fiberStack;
@@ -51,13 +51,13 @@ int main(int argc, char **argv)
     std::stack<VARIANT> *fiberStack = new std::stack<VARIANT>;    
     co_args_t *args;
  
-    // | convert ourselves to a fiber and pass 
+    // | Convert ourselves to a fiber and pass 
     // |     the stack and ourselves to the fiber.
     assert(fiberMain = ConvertThreadToFiber(0));
     args = new co_args_t {fiberStack, fiberMain};
     assert(fiber1 = CreateFiber(0, &Fiber1Proc, args));
 
-    // | interact with our coroutine.
+    // | Interact with our coroutine.
     for (;;) {            
         VARIANT response;
         SwitchToFiber(fiber1);   
