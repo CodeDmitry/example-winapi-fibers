@@ -37,8 +37,8 @@ int main(int argc, char **argv)
 {
     setbuf(stdout, NULL);
 
-    assert(fiber1 = CreateFiber(0, &Fiber1Proc, 0));
-    assert(fiber2 = CreateFiber(0, &Fiber2Proc, 0));
+    assert(fiber1 = CreateFiber(0,&Fiber1Proc,0));
+    assert(fiber2 = CreateFiber(0,&Fiber2Proc,0));
     assert(fiberMain = ConvertThreadToFiber(0));
 
     SwitchToFiber(fiber1);
