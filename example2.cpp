@@ -17,12 +17,13 @@ struct co_args_t {
     void far *callerFiber;
 };
 
+// | Weak contract: memory used by parg is released by the caller.
 void __stdcall Fiber1Proc(void far *parg)
 {
     int counter = 0;
     co_args_t args;    
         
-    // | copy the entire structure pointed to by parg.
+    // | Copy the entire structure pointed to by parg into args.
     memcpy(&args, parg, sizeof(args));
     
     for (;;) {        
@@ -81,6 +82,7 @@ int main(int argc, char **argv)
     }
     
     delete fiberStack;
+    delete args;
 
     return 0;
 }
