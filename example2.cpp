@@ -10,8 +10,8 @@
 // | Our coroutine needs a stack to place results onto, and potentially read 
 // |     requests from the caller who called SwitchToFiber,
 // |     we use a VARIANT to be able to send and receive "any" typed argument. 
-// | Our coroutine needs to know who called it, in order to 
-// |     be a "true" coroutine.
+// | Our coroutine needs to know who called it(in order to yield to it using 
+// |     SwitchToFiber).
 struct co_args_t {
     std::stack<VARIANT> *fiberStack;
     void far *callerFiber;
