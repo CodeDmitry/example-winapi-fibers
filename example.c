@@ -24,11 +24,11 @@ void __stdcall Fiber2Proc(void far *unused)
 {
     for(;;) {
         puts("pong");
-        Sleep(1000);
         ++counter;
         if (counter == 10) {
             SwitchToFiber(fiberMain);
         }
+        Sleep(1000);
         SwitchToFiber(fiber1);
     }
 }
