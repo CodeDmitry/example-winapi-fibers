@@ -7,9 +7,9 @@
 #include <stack>
 #include <stdlib.h>
 
-// | Our coroutine needs a stack to place results onto
-// |     use variant instead of int to potentially return different
-// |     types in the future.
+// | Our coroutine needs a stack to place results onto, and potentially read 
+// |     requests from the caller who called SwitchToFiber,
+// |     we use a VARIANT to be able to send and receive "any" typed argument. 
 // | Our coroutine needs to know who called it, in order to 
 // |     be a "true" coroutine.
 struct co_args_t {
