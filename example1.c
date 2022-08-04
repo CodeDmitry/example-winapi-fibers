@@ -39,6 +39,8 @@ int main(int argc, char **argv)
 
     assert(fiber1 = CreateFiber(0,&Fiber1Proc,0));
     assert(fiber2 = CreateFiber(0,&Fiber2Proc,0));
+    
+    // | Without this, the SwitchToFiber below will crash.
     assert(fiberMain = ConvertThreadToFiber(0));
 
     SwitchToFiber(fiber1);
