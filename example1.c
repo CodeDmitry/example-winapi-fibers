@@ -35,7 +35,7 @@ void __stdcall Fiber2Proc(void far *unused)
 
 int main(int argc, char **argv)
 {
-    setbuf(stdout, NULL);
+    setvbuf(stdout, 0, _IONBF, 0);
 
     assert(fiber1 = CreateFiber(0, &Fiber1Proc, 0));
     assert(fiber2 = CreateFiber(0, &Fiber2Proc, 0));
