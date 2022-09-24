@@ -3,9 +3,9 @@
 // |    (and even accept requests, but that is not done here).
 #include <Windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <stack>
-#include <stdlib.h>
 
 // | Our coroutine needs a stack to place results onto, and potentially read 
 // |     requests from the caller who called SwitchToFiber,
