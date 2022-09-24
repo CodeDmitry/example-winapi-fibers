@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <assert.h>
 
-void far *fiberMain;
-void far *fiber1;
-void far *fiber2;
+LPVOID fiberMain;
+LPVOID fiber1;
+LPVOID fiber2;
 int counter = 0;
 
-void __stdcall Fiber1Proc(void far *unused)
+VOID WINAPI Fiber1Proc(LPVOID unused)
 {
     for (;;) {
         puts("ping");
@@ -20,7 +20,7 @@ void __stdcall Fiber1Proc(void far *unused)
     }
 }
 
-void __stdcall Fiber2Proc(void far *unused)
+VOID WINAPI Fiber2Proc(LPVOID unused)
 {
     for(;;) {
         puts("pong");
@@ -35,12 +35,12 @@ void __stdcall Fiber2Proc(void far *unused)
 
 int main(int argc, char **argv)
 {
-    setvbuf(stdout, 0, _IONBF, 0);
+    setvbuf(stdout, (char *)0, _IONBF, 0);
 
-    assert(fiber1 = CreateFiber(0, &Fiber1Proc, 0));
-    assert(fiber2 = CreateFiber(0, &Fiber2Proc, 0));
+    assert(fiber1 = CreateFiber(0, &Fiber1Proc, (LPVOID)0));
+    assert(fiber2 = CreateFiber(0, &Fiber2Proc, (LPVOID)0));
     
-    assert(fiberMain = ConvertThreadToFiber(0));
+    assert(fiberMain = ConvertThreadToFiber((LPVOID)0));
 
     SwitchToFiber(fiber1);
 
