@@ -22,7 +22,7 @@ VOID WINAPI Fiber1Proc(LPVOID unused)
 
 VOID WINAPI Fiber2Proc(LPVOID unused)
 {
-    for(;;) {
+    for (;;) {
         puts("pong");
         ++counter;
         if (counter == 10) {
