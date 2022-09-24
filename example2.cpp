@@ -12,19 +12,19 @@
 // |     we use a VARIANT to be able to send and receive "any" typed argument. 
 // | Our coroutine needs to know who called it(in order to yield to it using 
 // |     SwitchToFiber).
-struct co_args_t {
+struct CustomFiberProcArgs1 {
     std::stack<VARIANT> *fiberStack;
-    void far *callerFiber;
+    LPVOID callerFiber;
 };
 
 // | Weak contract: memory used by parg is released by the caller.
-void __stdcall Fiber1Proc(void far *parg)
+void WINAPI Fiber1Proc(LPVOID pArg)
 {
     int counter = 0;
-    co_args_t args;    
+    CustomFiberProcArgs1 args;    
         
-    // | Copy the entire structure pointed to by parg into args.
-    memcpy(&args, parg, sizeof(args));
+    // | Copy the entire structure pointed to by pArg into args.
+    memcpy(&args, pArg, sizeof(args));
     
     for (;;) {        
         VARIANT response;
@@ -53,15 +53,15 @@ void __stdcall Fiber1Proc(void far *parg)
 
 int main(int argc, char **argv)
 {
-    void far *fiberMain = nullptr;
-    void far *fiber1 = nullptr;
+    LPVOID fiberMain = (LPVOID)0;
+    LPVOID fiber1 = (LPVOID)0;
     std::stack<VARIANT> *fiberStack = new std::stack<VARIANT>;    
-    co_args_t *args;
+    CustomFiberProcArgs1 *args;
  
     // | Convert ourselves to a fiber and pass 
     // |     the stack and ourselves to the fiber.
     assert(fiberMain = ConvertThreadToFiber(0));
-    args = new co_args_t {fiberStack, fiberMain};
+    args = new CustomFiberProcArgs1{fiberStack, fiberMain};
     assert(fiber1 = CreateFiber(0, &Fiber1Proc, args));
 
     // | Interact with our coroutine.
